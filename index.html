@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emmanuella Njoku — Senior Backend Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0A0F1E;
+      --navy-card: #111827;
+      --navy-border:#1E2D45;
+      --teal:      #00C2A8;
+      --teal-dim:  #00C2A820;
+      --teal-glow: #00C2A840;
+      --white:     #F0F4FF;
+      --muted:     #8892A4;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Space Grotesk', sans-serif;
+      --body:      'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--teal);
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-family: var(--sans);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* PCB grid signature element */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--navy-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--navy-border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      mask-image: radial-gradient(ellipse 80% 80% at 60% 40%, black 30%, transparent 80%);
+    }
+    /* Teal glow blobs */
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; max-width: 860px; }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-name {
+      font-family: var(--sans);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .hero-name span { color: var(--teal); }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    /* Typing terminal block */
+    .terminal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-left: 3px solid var(--teal);
+      border-radius: 6px;
+      padding: 0.75rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--teal);
+      margin-bottom: 2.5rem;
+    }
+    .terminal .prompt { color: var(--muted); }
+    .cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--teal);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      background: var(--teal);
+      color: var(--navy);
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      border: 1px solid var(--navy-border);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2.5rem; max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--teal);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--sans);
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 48px; height: 2px;
+      background: var(--teal);
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1.1rem; font-size: 1rem; }
+    .about-text p strong { color: var(--white); font-weight: 500; }
+
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .skill-row label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .pill {
+      font-size: 0.78rem;
+      font-family: var(--sans);
+      font-weight: 500;
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+      background: var(--teal-dim);
+      color: var(--teal);
+      border: 1px solid var(--teal-glow);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-left: 3px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--teal);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .project-title {
+      font-family: var(--sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .stack-badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 4px;
+      background: #1E2D45;
+      color: var(--muted);
+      border: 1px solid var(--navy-border);
+    }
+    .project-link {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--teal);
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 0.6rem; }
+    .project-link::after { content: '→'; }
+
+    /* Wide card variant */
+    .project-card.wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .project-card.wide .project-body { display: flex; flex-direction: column; }
+    .project-card.wide .project-visual {
+      background: #0D1526;
+      border: 1px solid var(--navy-border);
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .project-card.wide .project-visual .line-teal { color: var(--teal); }
+    .project-card.wide .project-visual .line-white { color: var(--white); }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 6px; bottom: 6px;
+      width: 1px; background: var(--navy-border);
+    }
+    .timeline-item {
+      position: relative;
+      padding: 0 0 2.5rem 1.75rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -4px; top: 6px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--teal);
+      border: 2px solid var(--navy);
+    }
+    .timeline-period {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--teal);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+    .timeline-role {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .timeline-company {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-detail {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── INTEGRATIONS STRIP ── */
+    #integrations {
+      background: var(--navy-card);
+      border-top: 1px solid var(--navy-border);
+      border-bottom: 1px solid var(--navy-border);
+      max-width: 100%;
+      padding: 5rem 2.5rem;
+    }
+    #integrations .inner { max-width: 1000px; margin: 0 auto; }
+    .integrations-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .int-card {
+      padding: 1.25rem 1.4rem;
+      background: var(--navy);
+      border: 1px solid var(--navy-border);
+      border-radius: 8px;
+    }
+    .int-card-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--teal);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .int-card-value {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    #contact .section-divider { margin: 1rem auto 2rem; }
+    .contact-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--navy-border);
+      padding: 2rem 2.5rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.2rem; }
+      #hero { padding: 7rem 1.2rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.wide { grid-column: span 1; grid-template-columns: 1fr; }
+      .integrations-categories { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; opacity: 1; }
+      .fade-in { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">ea.dev</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#integrations">Integrations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">// Senior Backend Engineer · Systems That Scale · APIs That Don't Break</p>
+      <h1 class="hero-name">Emmanuella<br /><span>Njoku.</span></h1>
+      <div class="terminal">
+        <span class="prompt">$</span>
+        <span id="typed-text"></span>
+        <span class="cursor"></span>
+      </div>
+      <p class="hero-tagline">
+        I've spent 6 years building backend systems where failure isn't an option. I design
+        financial infrastructure handling real money at scale, under regulatory pressure, for millions of users.
+        If I can build that, I can build anything you need.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="fade-in">
+      <p class="section-label">// 01 — about</p>
+      <h2 class="section-title">The engineer behind the system</h2>
+      <div class="section-divider"></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a senior backend engineer with 6 years building <strong>complex, high-stakes systems</strong>
+            — the kind where downtime costs money, bugs cost trust, and scale is non-negotiable.
+            My background is in financial services, which means I've been trained in the hardest school there is.
+          </p>
+          <p>
+            I've shipped <strong>event-driven microservices, REST APIs, enterprise integrations,
+            regulatory compliance systems, and cloud infrastructure</strong> across roles at a
+            leading Nigerian digital bank, a Big Four consulting firm, and a tier-1 commercial bank.
+            I work across the full backend surface : architecture, data, integrations, deployment.
+          </p>
+          <p>
+            Payments is where I've gone deepest, but the skills transfer everywhere:
+            <strong>distributed systems, async processing, resilient API design, third-party integrations</strong>.
+            If your backend problem is hard, that's exactly where I'm most useful.
+          </p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-row">
+            <label>LANGUAGES & FRAMEWORKS</label>
+            <div class="skill-pills">
+              <span class="pill">C#</span>
+              <span class="pill">.NET 8</span>
+              <span class="pill">Node.js</span>
+              <span class="pill">TypeScript</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <label>ARCHITECTURE & INFRA</label>
+            <div class="skill-pills">
+              <span class="pill">Microservices</span>
+              <span class="pill">Kafka</span>
+              <span class="pill">Dapr</span>
+              <span class="pill">Docker</span>
+              <span class="pill">Kubernetes</span>
+              <span class="pill">Azure</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <label>DATA</label>
+            <div class="skill-pills">
+              <span class="pill">PostgreSQL</span>
+              <span class="pill">MongoDB</span>
+              <span class="pill">Entity Framework</span>
+              <span class="pill">Redis</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <label>DOMAIN</label>
+            <div class="skill-pills">
+              <span class="pill">Payments</span>
+              <span class="pill">Remittances</span>
+              <span class="pill">KYC</span>
+              <span class="pill">IFRS 9 / ECL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="fade-in">
+      <p class="section-label">// 02 — projects</p>
+      <h2 class="section-title">Selected work</h2>
+      <div class="section-divider"></div>
+      <div class="projects-grid">
+
+        <!-- PayFlow -->
+        <div class="project-card wide">
+          <div class="project-body">
+            <p class="project-tag">Cloud · REST API · Payments</p>
+            <h3 class="project-title">PayFlow</h3>
+            <p class="project-desc">
+              A production-grade payment processing microservice built in .NET 8 and deployed to
+              Azure. Exposes a fully-documented REST API covering transaction initiation, status
+              tracking, and webhook dispatch. PostgreSQL persistence, containerised with Docker,
+              deployed via Azure App Service and Container Registry.
+            </p>
+            <div class="project-stack">
+              <span class="stack-badge">.NET 8</span>
+              <span class="stack-badge">C#</span>
+              <span class="stack-badge">PostgreSQL</span>
+              <span class="stack-badge">Docker</span>
+              <span class="stack-badge">Azure App Service</span>
+              <span class="stack-badge">Entity Framework</span>
+              <span class="stack-badge">Swagger</span>
+            </div>
+            <a href="https://github.com/airmarh/payflow" target="_blank" class="project-link">View on GitHub</a>
+          </div>
+          <div class="project-visual">
+            <div class="line-teal">POST /api/transactions</div>
+            <div>──────────────────────────</div>
+            <div class="line-white">201 Created</div>
+            <div>{</div>
+            <div>&nbsp;&nbsp;<span class="line-teal">"id"</span>: "txn_8f2a9c...",</div>
+            <div>&nbsp;&nbsp;<span class="line-teal">"status"</span>: "PENDING",</div>
+            <div>&nbsp;&nbsp;<span class="line-teal">"amount"</span>: 15000.00,</div>
+            <div>&nbsp;&nbsp;<span class="line-teal">"currency"</span>: "NGN",</div>
+            <div>&nbsp;&nbsp;<span class="line-teal">"webhookUrl"</span>: "https://..."</div>
+            <div>}</div>
+            <div style="margin-top:0.5rem; color:#2A3550;">──────────────────────────</div>
+            <div style="color:#4A6080;">✓ Deployed · Azure App Service</div>
+          </div>
+        </div>
+
+        <!-- Merchant Auth Case Study -->
+        <div class="project-card">
+          <p class="project-tag">Architecture · Case Study</p>
+          <h3 class="project-title">Push-Based Merchant Authorization</h3>
+          <p class="project-desc">
+            Replaced a multi-step checkout flow with a single in-app authorization tap.
+            The system handles the full cycle: payment initiation through a closed API gateway,
+            async event publishing via message broker, push notification delivery, in-app approval,
+            settlement, and webhook callback to the merchant. Built solo in 2 weeks.
+          </p>
+          <div class="project-stack">
+            <span class="stack-badge">.NET 8</span>
+            <span class="stack-badge">Dapr</span>
+            <span class="stack-badge">Kafka</span>
+            <span class="stack-badge">Docker</span>
+            <span class="stack-badge">Kubernetes</span>
+          </div>
+          <a href="case-study.html" class="project-link">View Case Study</a>
+        </div>
+
+        <!-- Sumptuous -->
+        <div class="project-card">
+          <p class="project-tag">Full Stack · Web App</p>
+          <h3 class="project-title">Sumptuous</h3>
+          <p class="project-desc">
+            A full-stack restaurant management application. Customers browse menus, place orders,
+            and track delivery. Built with a React frontend, Node.js/Express backend, and MongoDB
+            database. Demonstrates end-to-end full-stack delivery outside the payments domain.
+          </p>
+          <div class="project-stack">
+            <span class="stack-badge">React</span>
+            <span class="stack-badge">Node.js</span>
+            <span class="stack-badge">Express</span>
+            <span class="stack-badge">MongoDB</span>
+          </div>
+          <a href="https://github.com/airmarh/sumotuous-by-airmarh" target="_blank" class="project-link">View on GitHub</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="fade-in">
+      <p class="section-label">// 03 — experience</p>
+      <h2 class="section-title">Where I've built</h2>
+      <div class="section-divider"></div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <p class="timeline-period">2022 — Present</p>
+          <p class="timeline-role">Senior Backend Engineer</p>
+          <p class="timeline-company">A leading Nigerian digital bank</p>
+          <p class="timeline-detail">
+            Building and maintaining payment microservices for inward and outward flows, provider
+            integrations, and funds transfer functionality. Working across a Kafka/Dapr event-driven
+            architecture at scale.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-period">2019 — 2022</p>
+          <p class="timeline-role">Software Engineer (Consulting)</p>
+          <p class="timeline-company">Big Four Consulting Firm</p>
+          <p class="timeline-detail">
+            Built IFRS 9 expected credit loss and credit rating systems for multiple Nigerian
+            commercial banks. Consulted on internal applications during a tier-1 bank's core
+            banking migration.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-period">2017 — 2019</p>
+          <p class="timeline-role">Backend Engineer</p>
+          <p class="timeline-company">Tier-1 Nigerian Commercial Bank</p>
+          <p class="timeline-detail">
+            Developed USSD consent infrastructure across four major telecoms and
+            international remittance processing integrations, handling inward transfers
+            via SWIFT MT202/MT103.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section id="integrations">
+    <div class="inner fade-in">
+      <p class="section-label">// 04 — integrations</p>
+      <h2 class="section-title">20+ Enterprise Integrations</h2>
+      <div class="section-divider"></div>
+      <p style="color:var(--muted); max-width:600px; margin-bottom:2.5rem; font-size:0.95rem;">
+        Six years of production integrations across Nigerian financial services —
+        telecoms, remittances, KYC, payments, and more.
+      </p>
+      <div class="integrations-categories">
+        <div class="int-card">
+          <p class="int-card-label">Telecoms / USSD</p>
+          <p class="int-card-value">CBN-mandated USSD consent API across all four major Nigerian telecoms (MTN, Airtel, Glo, 9Mobile)</p>
+        </div>
+        <div class="int-card">
+          <p class="int-card-label">International Remittances</p>
+          <p class="int-card-value">SWIFT MT202/MT103 message generation for inward transfers from Western Union, MoneyGram, and others</p>
+        </div>
+        <div class="int-card">
+          <p class="int-card-label">Identity & KYC</p>
+          <p class="int-card-value">Physical address verification across five providers, with manual routing and provider accountability tracking</p>
+        </div>
+        <div class="int-card">
+          <p class="int-card-label">Payment Gateways</p>
+          <p class="int-card-value">Paystack and GTPay checkout integrations with TSQ fallback patterns</p>
+        </div>
+        <div class="int-card">
+          <p class="int-card-label">Bill Payments & Wallets</p>
+          <p class="int-card-value">Bill payment via IRecharge; betting wallet funding integrations with TSQ reconciliation patterns</p>
+        </div>
+        <div class="int-card">
+          <p class="int-card-label">Investments & Messaging</p>
+          <p class="int-card-value">Investment platform integration; multi-provider messaging via SendChamp, SendGrid, and NetCore</p>
+        </div>
+      </div>
+      <a href="https://github.com/airmarh/integration-showcase" target="_blank" class="btn-outline">
+        View Full Integration Portfolio →
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="fade-in">
+      <p class="section-label">// 05 — contact</p>
+      <h2 class="section-title">Let's work together</h2>
+      <div class="section-divider"></div>
+      <p class="contact-sub">
+        Available for freelance backend engineering engagements. I tackle hard problems —
+        APIs, microservices, integrations, distributed systems. If you need it built properly,
+        let's talk.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:emmanuella.njoku@hotmail.com" class="btn-primary">Send an Email</a>
+        <a href="https://github.com/airmarh" target="_blank" class="btn-outline">GitHub</a>
+        <a href="#" class="btn-outline">Upwork Profile</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built by Emmanuella Njoku · emmanuellanjoku.github.io</p>
+  </footer>
+
+  <script>
+    // Typing animation
+    const phrases = [
+      'build backends that handle real money',
+      'design systems that scale under pressure',
+      'turn complex problems into clean APIs',
+      'ship microservices, not excuses',
+    ];
+    let phraseIdx = 0, charIdx = 0, deleting = false;
+    const el = document.getElementById('typed-text');
+
+    function type() {
+      const current = phrases[phraseIdx];
+      if (!deleting) {
+        el.textContent = current.slice(0, ++charIdx);
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(type, 2000);
+          return;
+        }
+      } else {
+        el.textContent = current.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+        }
+      }
+      setTimeout(type, deleting ? 40 : 70);
+    }
+    type();
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
